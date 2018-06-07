@@ -1,19 +1,28 @@
 package br.com.db1.start.classes;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity(name = "endereco")
 public class Endereco {
-
-	@Column
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Cidade cidade;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Pessoa pessoa;
 
 	@Column(nullable = false, length = 10)
 	private String tipoLogradouro;
@@ -41,6 +50,8 @@ public class Endereco {
 		this.id = id;
 	}
 
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Cidade getCidade() {
 		return cidade;
 	}
@@ -96,5 +107,15 @@ public class Endereco {
 	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
 	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+	
+	
 
 }
